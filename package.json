@@ -25,6 +25,7 @@
   "homepage": "https://github.com/nodezoo/nodezoo-travis#readme",
   "dependencies": {
     "bootstrap": "^3.3.6",
+    "ejs": "^2.4.1",
     "eslint-config-seneca": "1.1.2",
     "express": "^4.13.4",
     "formidable": "^1.0.17",

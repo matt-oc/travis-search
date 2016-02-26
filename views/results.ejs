@@ -23,6 +23,12 @@
     height:70px;
     text-align: center;
   }
+#results{
+  padding-top:70px;
+  position:absolute;
+  width:100%;
+  text-align: center;
+}
   </style>
 </head>
 <body>
@@ -36,9 +42,9 @@
       </ul>
     </div>
   </nav>
-  <div class="container" >
+  <div class="container">
     <div class="search" id="content">
-      <h1>TravisCI Search</h1>
+      <h1><a href="https://travis-ci.org/"><img src="/img/travis-logo.png" style="width:130px;height:65px;"></a> Search</h1>
       <p class="lead">Search for travis modules below</p>
       <form action="/form" method="POST">
         <input type="text" name="query" placeholder="Enter module name" />
@@ -46,8 +52,8 @@
       </form>
     </div>
   </div>
-  <div class ="results">
-    <p class="lead">Results go here</p>
+  <div class ="results" id="results">
+    <p class="lead">Search Results for: <%= input%><br><br><%= result%></p>
   </div>
   <div id="footer">
     <footer>
