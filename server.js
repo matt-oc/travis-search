@@ -1,11 +1,14 @@
 const http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
+var path = require('path');
 var app = express();
 
 //basic handler and router
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'assets')));
+app.use(express.static(path.join(__dirname, 'fonts')));
 //routes
 
 app.get("/",function(req,res){
