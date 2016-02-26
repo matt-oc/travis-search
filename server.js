@@ -1,65 +1,23 @@
 const http = require('http');
-var url = require('url');
-var path = require('path');
-var fs = require('fs');
-var formidable = require("formidable");
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
 
-var mimeTypes = {
-  'html' : "text.html",
-  'jpeg' : "image/jpeg",
-  'jpg' : 'image/jpeg',
-  'png' : 'image/png',
-  'js' : 'text/javascript',
-  'css' : 'text/css'
+//basic handler and router
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+//routes
 
-};
-
-// Create server
-var server = http.createServer(function(req,res){
-  var uri = url.parse(req.url).pathname;
-  // gets filename
-  var fileName = path.join(process.cwd(),unescape(uri)); //.cwd returns current working directory of process
-console.log('Loading' + uri);
-var stats;
-
-try{
-  stats = fs.lstatSync(fileName);
-} catch(e) {
-  res.writeHead(404, {'Content-type': 'text/plain'});
-  res.write('404 Not Found/n');
-  res.end();
-  return;
-}
-
-//Check if file/directory
-if (stats.isFile()){
-  var mimeType = mimeTypes[path.extname(fileName).split('.').reverse()[0]];
-  res.writeHead(200, {'Content-type' : mimeType});
-
-  var fileStream = fs.createReadStream(fileName);
-  fileStream.pipe(res);
-}
-
-  else if (stats.isDirectory()){
-    res.writeHead(302,{'Location' : 'index.html'});
-  }
-  else{
-    res.writeHead(500, {'Content-type': 'text/plain'});
-    res.write('500 internal error');
-    res.end();
-  }
-
-  function displayForm(res) {
-      fs.readFile('index.html', function (err, data) {
-          res.writeHead(200, {
-              'Content-Type': 'text/html',
-                  'Content-Length': data.length
-          });
-          res.write(data);
-          res.end();
-      });
-  }
+app.get("/",function(req,res){
+  res.sendFile(__dirname + "/index.html");
 })
 
-server.listen(3000);
-console.log("Server starting.... listening on port 3000");
+app.post("/form",function(req,res){
+  var query = req.body.query
+  res.send("The query entered was: " + query)
+})
+
+// Create server
+http.createServer(app).listen(7050);
+console.log("Server is listening on port: 7050");
+ 

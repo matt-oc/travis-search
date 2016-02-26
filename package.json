@@ -26,6 +26,7 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "eslint-config-seneca": "1.1.2",
+    "express": "^4.13.4",
     "formidable": "^1.0.17",
     "lodash": "4.5.1",
     "request": "2.69.0",
