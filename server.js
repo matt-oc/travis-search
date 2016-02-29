@@ -58,18 +58,15 @@ require('seneca')()
   .repl(43005)
   console.log("Travis server listening");
  
- function format(data){
-   var str;
-   for(var i = 0; i < data.length; i++) {
-      var obj = json[i];
+  function display(data) {
+     var resp = "";
+     var prop = null;
+     var dataJSON = JSON.parse(data);
 
-      console.log(obj.id);
-  }
-  // str = str + data.dist[key] 
-  // console.log(key);
-  // console.log(data);
-  // console.log(str);
- //}
- //}
- return obj
+     for (prop in dataJSON) {
+         if (patternJSON.hasOwnProperty(prop)) {
+             resp += "obj" + "." + prop + " = " + dataJSON[prop] + "\n";
+         }
+     }
+     return resp;
  }

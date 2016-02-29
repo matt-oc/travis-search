@@ -10,6 +10,12 @@
   <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="/css/hexagons.min.css"> 
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  <script>function change();
+{
+var elem = document.getElementById("Submit");
+elem.value = "Loading";
+}
+</script>
   <style type="text/css">
   #content{
     padding-top:70px;
@@ -25,8 +31,9 @@
   }
 #results{
   padding-top:70px;
-  position:absolute;
-  width:100%;
+  width: 700px ;
+  margin-left: auto ;
+  margin-right: auto ;
   text-align: center;
 }
   </style>
@@ -48,7 +55,7 @@
       <p class="lead">Search for travis modules below</p>
       <form action="/form" method="POST">
         <input type="text" name="query" placeholder="Enter module name" />
-        <input type="submit" value="Submit" />
+        <input onclick="this.value='Loading';this.style.backgroundColor = '#0099FF'" type="submit" id="Submit" value="Submit" />
       </form>
     </div>
   </div>
