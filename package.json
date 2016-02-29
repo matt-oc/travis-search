@@ -33,6 +33,7 @@
     "path": "^0.12.7",
     "request": "2.69.0",
     "seneca": "^1.2.0",
-    "travis-ci": "2.1.0"
+    "travis-ci": "2.1.0",
+    "body-parser": "1.15.0"
   }
 }
