@@ -20,8 +20,7 @@ module.exports = function travis () {
 
   function cmd_get (args, done) {
     var name = args.name
-    var res1
-    var res2 
+    
 
     var url = options.registry + name
     Request.get(url, function (err, res, body) {
@@ -36,24 +35,17 @@ module.exports = function travis () {
         if (err) {
           return done(err)
         }
-        var user = cmd_parse(data)
+        var gitData = cmd_parse(data)
+        if (gitData){
+        var user = gitData[1]
+        var reponame = gitData[2]
+      }
         if (!user) {
-          return done(err)
+          return done(null,{type:"fail"})
         }
         else {
-          tr.repos(user, name).get(function (err, res) {
-            if (err) {
-              return done(err)
-            }
-            res1 = res
-          })
-          tr.repos(user, name).builds.get(function (err, res) {
-            if (err) {
-              return done(err)
-            }
-            res2 = res
-            var build = Object.assign(res1.repo, res2.builds[0].config)
-            done(null, build)
+          getRepo(user,reponame, function(build){
+            done(null,build)
           })
         }
       })
@@ -61,12 +53,41 @@ module.exports = function travis () {
   }
 }
 
+function getRepo(user, reponame, cb){
+  var res1
+  var res2 
+  
+  tr.repos(user, reponame).get(function (err, res) {
+    if (err) {
+          cb(err)
+        }
+    res1 = res
+    
+  })
+  tr.repos(user, reponame).builds.get(function (err, res) {
+    if (err) {
+          cb(err);
+  }
+    res2 = res
+    
+    if (res1 && res2.builds[0]){
+    var build = Object.assign(res1.repo, res2.builds[0].config)
+  }
+  else if(res1){
+    build = Object.assign(res1.repo)
+  }
+  else {
+    build = null;
+  }
+    cb(build);
+  })
+}
+
 function cmd_extract (args, done) {
   var data = args.data
   var dist_tags = data['dist-tags'] || {}
   var latest = ((data.versions || {})[dist_tags.latest]) || {}
   var repository = latest.repository || {}
-
   var out = {
     giturl: repository.url
   }
@@ -77,7 +98,7 @@ function cmd_extract (args, done) {
 function cmd_parse (args) {
   var m = /[\/:]([^\/:]+?)[\/:]([^\/]+?)(\.git)*$/.exec(args.giturl)
   if (m) {
-    return ('' + m[1])
+    return (m)
   }
   else {
     return null

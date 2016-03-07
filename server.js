@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var seneca = require('seneca')()
 var app = express();
+var info;
+var input;
 
 app.set('view engine','ejs');
 //basic handler and router
@@ -20,24 +22,40 @@ app.get("/",function(req,res){
 app.get("/about",function(req,res){
   res.render("about");
 })
-app.post("/form",function(req,res){
+app.post("/search",function(req,res){
   var query = req.body.query
   console.log(query);
   if (query){
-  seneca.client(44005).act('{"role":"travis","cmd":"get",'+'"name":' + query + '}', function (err, data) {
-    var result = '';
-    if (err) {
-      this.log.error(err)
-      return
-    }
-    else {
-      res.render('results', {result:data, input:query})
-    }
-  })
-}
-else {
-  res.render('results',{result:"invalid", input:"empty"})
-}
+    seneca.client(44005).act('{"role":"travis","cmd":"get",'+'"name":' + query + '}', function (err, data) {
+      var result = '';
+      if (err) {
+        this.log.error(err)
+        return
+      }
+      else {
+        if(!data || data == null){
+          res.render('results', {result:data, input:query})
+        }
+        
+        else if(data.type == "fail"){
+          res.render('results', {result:"onNpm", input:query})
+        }
+        else{
+          info = data;
+          input = query;
+          res.render('results', {result:data, input:query})
+        }
+      }
+    })
+  }
+  else {
+    res.render('results',{result:"invalid", input:"empty"})
+  }
+})
+app.post("/raw",function(req,res){
+//  var data = JSON.stringify(info)
+  res.render('raw', {raw:info, input:input})
+  
 })
 app.get('*', function(req, res){
   res.send('page not found, please go back', 404);
@@ -47,10 +65,9 @@ http.createServer(app).listen(7050);
 console.log("Server is listening on port: 7050");
 
 require('seneca')()
-  .use('/travis.js')
-  .client({ host:'localhost', pin:{role:'travis', cmd:'*'}})
-  .listen(44005)
-  .repl(43005)
-  console.log("Travis server listening");
- 
-  
+.use('/travis.js')
+.client({ host:'localhost', pin:{role:'travis', cmd:'*'}})
+.listen(44005)
+.repl(43005)
+console.log("Travis server listening");
+

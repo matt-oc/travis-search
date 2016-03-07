@@ -11,7 +11,7 @@
   <link rel="stylesheet" type="text/css" href="/css/hexagons.min.css"> 
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
   <script>
-  var data = <%-JSON.stringify(result)%>
+  var data = <%-JSON.stringify(raw)%>
   function loading() {
           document.getElementById('results').innerHTML = '<br\><br\><br\><img src="img/loading1.gif" id="image" style="width:150px;height:120px;">';
   }
@@ -29,47 +29,10 @@
       document.getElementById('data').innerHTML = data
     }
     else {
-      var resp;
-      resp ="<p>" + '<strong> ID: </strong>' + data.id + "<br /><p />" + "<p>" + '<strong>Slug: </strong>' + data.slug + "<br /><p />";
-      if (data.active){
-        resp += "<p>" + '<strong>Active:  </strong>' + data.active + "<br /><p />"
-      }
-      else{
-        resp += "<p>" + '<strong>Active:  </strong>' + "module inactive" + "<br /><p />"
-      }
-      if (data.description){
-        resp += "<p>" + '<strong>Description:  </strong>' + data.description + "<br /><p />"
-      }
-      else{
-        resp += "<p>" + '<strong>Description:  </strong>' + "no description available" + "<br /><p />"
-      }
-      if (data.last_build_started_at){
-        resp += "<p>" + '<strong>Last build on:  </strong>' + data.last_build_started_at + "<br /><p />"
-      }
-      else{
-        resp += "<p>" + '<strong>Last Build on:  </strong>' + "no builds" + "<br /><p />"
-      }
-      if (data.last_build_state){
-        resp += "<p>" + '<strong>Last build state:  </strong>' + data.last_build_state + "<br /><p />"
-      }
-      else{
-        resp += "<p>" + '<strong>Last Build state:  </strong>' + "no builds" + "<br /><p />"
-      }
-      if (data.group){
-        resp += "<p>" + '<strong>Group:  </strong>' + data.group + "<br /><p />"
-      }
-      else{
-        resp += "<p>" + '<strong>Group:  </strong>' + "no group available" + "<br /><p />"
-      }
-      if (data.language){
-        resp += "<p>" + '<strong>Language:  </strong>' + data.language + "<br /><p />"
-      }
-      else{
-        resp += "<p>" + '<strong>Language:  </strong>' + "no language available" + "<br /><p />"
-      }
-        
-      document.getElementById('data').innerHTML = resp
-      document.getElementById('raw').className = "btn btn-link"
+      var resp = JSON.stringify(data,null,2);
+    
+      document.getElementById('data').innerHTML = resp;
+      document.getElementById('raw').className = "btn btn-link";
     }
     
     /*var resp = "";
@@ -143,14 +106,12 @@ function raw(){
       </form>
     </div>
   <div class ="results" id="results">
-    <p class="lead" id ="title">Search Results for: <em><%= input%></em></p>
+    <p class="lead" id ="title">Raw data for: <em><%= input%></em></p>
     <HR>
       <br>
-    <p class="lead" id="data"><br><br></p>
+    <pre><p class="lead" id="data"><br><br></p></pre>
     <br>
     <HR>
-      <br><p><form action="/raw" method="POST">
-        <input class="btn btn-link disabled" id="raw" type="submit" value="View all module data" style="width:150px;height:40px;" /><img src="/img/travis-head.jpeg" style="width:25px;height:25px;" ></p><br></form>
   </div>
   <div id="footer">
     <footer>

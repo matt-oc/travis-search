@@ -11,10 +11,10 @@
   <link rel="stylesheet" type="text/css" href="/css/hexagons.min.css"> 
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
   <script type="text/javascript">
-            function loading() {
-                    document.getElementById('results').innerHTML = '<br\><br\><br\><img src="img/loading1.gif" id="image" style="width:150px;height:120px;">'
-            }
-        </script>
+  function loading() {
+    document.getElementById('results').innerHTML = '<br\><br\><br\><img src="img/loading1.gif" id="image" style="width:150px;height:120px;">'
+  }
+  </script>
   <style type="text/css">
   #content{
     padding-top:70px;
@@ -50,16 +50,16 @@
       </ul>
     </div>
   </nav>
-  <div class="container">
+  
     <div class="search" id="content">
-      <h1><a href="https://travis-ci.org/"><img src="/img/travis-logo.png" style="width:150px;height:75px;"></a> Search</h1>
-      <p class="lead">Search for travis modules below</p>
-      <form action="/form" method="POST">
+      <h1><a href="https://travis-ci.org/"><img src="/img/travis-logo.png" style="width:150px;height:75px;"></a> Search</h1><br>
+      <p class="lead">Search for Travis-CI modules below</p>
+      <form action="/search" method="POST">
         <input type="text" name="query" placeholder="Enter module name" style="width:200px;height:40px;" />
-        <input onclick="this.value='Loading';loading()" id="submit" type="submit" value="Submit" style="width:100px;height:35px;" />
+        <input class="btn btn-danger" onclick="this.value='Loading';loading()" id="submit" type="submit" value="Submit" style="width:100px;height:35px;" />
       </form>
     </div>
-  </div>
+
   <div class ="results" id="results">
     
   </div>
