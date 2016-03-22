@@ -44,7 +44,7 @@ module.exports = function travis () {
           return done(null,{type:"fail"})
         }
         else {
-          getRepo(user,reponame, function(build){
+          getRepo(user,reponame,data, function(build){
             done(null,build)
           })
         }
@@ -53,7 +53,7 @@ module.exports = function travis () {
   }
 }
 
-function getRepo(user, reponame, cb){
+function getRepo(user, reponame, data, cb){
   var res1
   var res2 
   
@@ -71,10 +71,10 @@ function getRepo(user, reponame, cb){
     res2 = res
     
     if (res1 && res2.builds[0]){
-    var build = Object.assign(res1.repo, res2.builds[0].config)
+    var build = Object.assign(res1.repo, res2.builds[0].config, data)
   }
   else if(res1){
-    build = Object.assign(res1.repo)
+    build = Object.assign(res1.repo, data)
   }
   else {
     build = null;

@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="/css/hexagons.min.css"> 
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap-social.css">
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
   <script>
   var data = <%-JSON.stringify(result)%>
@@ -19,56 +20,58 @@
     
     if (data === "invalid"){
       document.getElementById('title').innerHTML = "Please enter a query"
+      document.getElementById('rawLink').innerHTML = ""
     }
     else if (data === "onNpm"){
       data = "This module is on Npm but not on Travis"
       document.getElementById('data').innerHTML = data
+      document.getElementById('rawLink').innerHTML = ""
     }
     else if (!data){
       data = "There were no matching entries"
       document.getElementById('data').innerHTML = data
+      document.getElementById('rawLink').innerHTML = ""
     }
     else {
-      var resp;
-      resp ="<p>" + '<strong> ID: </strong>' + data.id + "<br /><p />" + "<p>" + '<strong>Slug: </strong>' + data.slug + "<br /><p />";
+      document.getElementById('id').innerHTML = data.id
+      document.getElementById('slug').innerHTML = data.slug
       if (data.active){
-        resp += "<p>" + '<strong>Active:  </strong>' + data.active + "<br /><p />"
+        document.getElementById('active').innerHTML = data.active
       }
       else{
-        resp += "<p>" + '<strong>Active:  </strong>' + "module inactive" + "<br /><p />"
+        document.getElementById('active').innerHTML = "module inactive"
       }
       if (data.description){
-        resp += "<p>" + '<strong>Description:  </strong>' + data.description + "<br /><p />"
+        document.getElementById('description').innerHTML = data.description
       }
       else{
-        resp += "<p>" + '<strong>Description:  </strong>' + "no description available" + "<br /><p />"
+        document.getElementById('description').innerHTML = "no description provided"
       }
       if (data.last_build_started_at){
-        resp += "<p>" + '<strong>Last build on:  </strong>' + data.last_build_started_at + "<br /><p />"
+        document.getElementById('build').innerHTML = data.last_build_started_at
       }
       else{
-        resp += "<p>" + '<strong>Last Build on:  </strong>' + "no builds" + "<br /><p />"
+        document.getElementById('build').innerHTML = "no build information provided"
       }
       if (data.last_build_state){
-        resp += "<p>" + '<strong>Last build state:  </strong>' + data.last_build_state + "<br /><p />"
+        document.getElementById('state').innerHTML = data.last_build_state
       }
       else{
-        resp += "<p>" + '<strong>Last Build state:  </strong>' + "no builds" + "<br /><p />"
+        document.getElementById('state').innerHTML = "state information unavailable"
       }
       if (data.group){
-        resp += "<p>" + '<strong>Group:  </strong>' + data.group + "<br /><p />"
+        document.getElementById('group').innerHTML = data.group
       }
       else{
-        resp += "<p>" + '<strong>Group:  </strong>' + "no group available" + "<br /><p />"
+        document.getElementById('group').innerHTML = "no group information provided"
       }
       if (data.language){
-        resp += "<p>" + '<strong>Language:  </strong>' + data.language + "<br /><p />"
+        document.getElementById('language').innerHTML = data.language
       }
       else{
-        resp += "<p>" + '<strong>Language:  </strong>' + "no language available" + "<br /><p />"
+        document.getElementById('language').innerHTML = "no language information provided"
       }
         
-      document.getElementById('data').innerHTML = resp
       document.getElementById('raw').className = "btn btn-link"
     }
     
@@ -116,12 +119,24 @@ function raw(){
 #results{
   padding-top:50px;
   width: 700px ;
+  margin-bottom: 10px;
+  margin-left: auto ;
+  margin-right: auto ;
+  text-align: left;
+}
+#list{
+
+  margin-left: auto ;
+  margin-right: auto ;
+  text-align: left;
+}
+#rawLink{
+  width: 700px ;
   margin-bottom: 80px;
   margin-left: auto ;
   margin-right: auto ;
   text-align: center;
 }
-
   </style>
 </head>
 <body onload="formatting()">
@@ -144,13 +159,32 @@ function raw(){
     </div>
   <div class ="results" id="results">
     <p class="lead" id ="title">Search Results for: <em><%= input%></em></p>
+    
     <HR>
-      <br>
-    <p class="lead" id="data"><br><br></p>
+      
+      <a target="_blank" href='<%= github%>' class="btn btn-block btn-social btn-sm btn-github" style="width:131px; float:right;">
+      <span class="fa fa-github" ></span> view on github
+    </a>
+  <p class="lead" id="list">
+      <ul class="lead" id="data" style="list-style-type:none;">
+                      ID: <li id="id"></li>
+                      <span><strong>Slug: </strong><li id="slug"></li></span>
+                      <li><strong id="active">Active:</strong></li>
+                      <li><strong id="description">Description:</strong></li>
+                      <li><strong id="build">Last build on:</strong></li>
+                      <li><strong id="state">Last build state:</strong></li>
+                      <li><strong id="group">Group:</strong></li>
+                      <li><strong id="language">Language:</strong></li>
+                    </ul>
+                  </p>
+      <br><br>
     <br>
     <HR>
-      <br><p><form action="/raw" method="POST">
-        <input class="btn btn-link disabled" id="raw" type="submit" value="View all module data" style="width:150px;height:40px;" /><img src="/img/travis-head.jpeg" style="width:25px;height:25px;" ></p><br></form>
+    </div>
+    <div id="rawLink">
+      <p><form action="/raw" method="POST">
+        <input class="btn btn-link disabled" id="raw" type="submit" value="The above is just an overview of available data, click here to see the raw information" style="width:500px;height:40px;font-family:helvectica-neue;font-weight:300;color:#888888;" /></p><br></form>
+
   </div>
   <div id="footer">
     <footer>

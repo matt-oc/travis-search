@@ -24,36 +24,37 @@ app.get("/about",function(req,res){
 })
 app.post("/search",function(req,res){
   var query = req.body.query
-  console.log(query);
   if (query){
     seneca.client(44005).act('{"role":"travis","cmd":"get",'+'"name":' + query + '}', function (err, data) {
+      
       var result = '';
+      
       if (err) {
         this.log.error(err)
         return
       }
       else {
         if(!data || data == null){
-          res.render('results', {result:data, input:query})
+          res.render('results', {result:data, input:query, github:""})
         }
         
         else if(data.type == "fail"){
-          res.render('results', {result:"onNpm", input:query})
+          res.render('results', {result:"onNpm", input:query, github:""})
         }
         else{
+        var gitUrl = data.giturl.substring(4);
           info = data;
           input = query;
-          res.render('results', {result:data, input:query})
+          res.render('results', {result:data, input:query, github:gitUrl})
         }
       }
     })
   }
   else {
-    res.render('results',{result:"invalid", input:"empty"})
+    res.render('results',{result:"invalid", input:"empty", github:""})
   }
 })
 app.post("/raw",function(req,res){
-//  var data = JSON.stringify(info)
   res.render('raw', {raw:info, input:input})
   
 })
