@@ -1,11 +1,11 @@
 {
-  "name": "nodezoo-travis",
+  "name": "travis-search",
   "version": "0.1.0",
-  "description": "nodezoo.com micro-service handling travis meta data",
-  "main": "travis.js",
+  "description": "micro-service handling travis meta data",
+  "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nodezoo/nodezoo-travis.git"
+    "url": "git+https://github.com/matt-oc/travis-search.git"
   },
   "keywords": [
     "nodezoo",
@@ -15,22 +15,17 @@
   ],
   "author": "Matthew O'Connor (http://github.com/matt-oc)",
   "license": "MIT",
-  "contributors": [
-    "Shane Lacey <shane.lacey@nearform.com> (http://github.com/shanel262)",
-    "Isaac Mahon (isaac.mahon@nearform.com)"
-  ],
   "bugs": {
-    "url": "https://github.com/nodezoo/nodezoo-travis/issues"
+    "url": "https://github.com/matt-oc/travis-search/issues"
   },
-  "homepage": "https://github.com/nodezoo/nodezoo-travis#readme",
+  "homepage": "https://github.com/matt-oc/travis-search/#readme",
   "dependencies": {
-    "bootstrap": "^3.3.6",
-    "ejs": "^2.4.1",
-    "eslint-config-seneca": "1.1.2",
-    "express": "^4.13.4",
-    "formidable": "^1.0.17",
+    "bootstrap": "3.3.6",
+    "ejs": "2.4.1",
+    "express": "4.13.4",
+    "formidable": "1.0.17",
     "lodash": "4.5.1",
-    "path": "^0.12.7",
+    "path": "0.12.7",
     "request": "2.69.0",
     "seneca": "1.2.0",
     "travis-ci": "2.1.0",

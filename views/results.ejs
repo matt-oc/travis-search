@@ -10,11 +10,14 @@
   <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="/css/hexagons.min.css"> 
   <link rel="stylesheet" type="text/css" href="/css/bootstrap-social.css">
+  <link rel="icon" href="img/favicon.png" type="img/png"/>
+  <link rel="shortcut icon" href="img/favicon.png" type="img/png"/>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
   <script>
   var data = <%-JSON.stringify(result)%>
   function loading() {
-          document.getElementById('results').innerHTML = '<br\><br\><br\><img src="img/loading1.gif" id="image" style="width:150px;height:120px;">';
+    document.getElementById('results').innerHTML = '<br\><br\><br\><img src="img/loading.gif" id="image" style="width:200px;height:160px;">';
+    document.getElementById('raw').value = '';
   }
   function formatting(){
     
@@ -33,74 +36,52 @@
       document.getElementById('rawLink').innerHTML = ""
     }
     else {
-      document.getElementById('id').innerHTML = data.id
-      document.getElementById('slug').innerHTML = data.slug
+      document.getElementById('id').innerHTML = "<span><strong>ID: </strong></span>" + data.id
+      document.getElementById('slug').innerHTML = "<span><strong>Slug: </strong></span>" + data.slug
       if (data.active){
-        document.getElementById('active').innerHTML = data.active
+        document.getElementById('active').innerHTML = "<span><strong>Active: </strong></span>" + data.active
       }
       else{
-        document.getElementById('active').innerHTML = "module inactive"
+        document.getElementById('active').innerHTML = "<span><strong>Active: </strong>module inactive</span>"
       }
       if (data.description){
-        document.getElementById('description').innerHTML = data.description
+        document.getElementById('description').innerHTML = "<span><strong>Description: </strong></span>" + data.description
       }
       else{
-        document.getElementById('description').innerHTML = "no description provided"
+        document.getElementById('description').innerHTML = "<span><strong>Description: </strong>no description provided</span>"
       }
       if (data.last_build_started_at){
-        document.getElementById('build').innerHTML = data.last_build_started_at
+        document.getElementById('build').innerHTML = "<span><strong>Last Build at: </strong></span>" + data.last_build_started_at
       }
       else{
-        document.getElementById('build').innerHTML = "no build information provided"
+        document.getElementById('build').innerHTML = "<span><strong>Last Build at: </strong>no build information provided</span>"
       }
       if (data.last_build_state){
-        document.getElementById('state').innerHTML = data.last_build_state
+        document.getElementById('state').innerHTML = "<span><strong>Last Build: </strong></span>" + data.last_build_state
       }
       else{
-        document.getElementById('state').innerHTML = "state information unavailable"
+        document.getElementById('state').innerHTML = "<span><strong>Last Build: </strong>state information unavailable</span>"
       }
       if (data.group){
-        document.getElementById('group').innerHTML = data.group
+        document.getElementById('group').innerHTML = "<span><strong>Group: </strong></span>" + data.group
       }
       else{
-        document.getElementById('group').innerHTML = "no group information provided"
+        document.getElementById('group').innerHTML = "<span><strong>Group: </strong>no group information provided</span>"
       }
       if (data.language){
-        document.getElementById('language').innerHTML = data.language
+        document.getElementById('language').innerHTML = "<span><strong>Language: </strong></span>" + data.language
       }
       else{
-        document.getElementById('language').innerHTML = "no language information provided"
+        document.getElementById('language').innerHTML = "<span><strong>Language: </strong>no language information provided</span>"
       }
-        
+      
       document.getElementById('raw').className = "btn btn-link"
     }
     
-    /*var resp = "";
-    var prop = null;
-    for (prop in data) {
-      if (typeof(data[prop]) == "object" && data[prop] != null){
-        if (data.hasOwnProperty(prop)) {
-            resp += prop + " = " + data[prop] + "<br />";
-      }
-        for (pr in data[prop]){
-          var p = data[prop];
-          console.log(p);
-        if (p.hasOwnProperty(pr)) {
-            resp += pr + " = " + p[pr] + "<br />";
-            
-        }
-      }
-      }
-      else if (data.hasOwnProperty(prop)) {
-          resp += prop + " = " + data[prop] + "<br />";
-    }
-      document.getElementById('data').innerHTML = resp
-    }
-  }*/
-}
-function raw(){
-  document.getElementById('data').innerHTML = data
-}
+  }
+  function raw(){
+    document.getElementById('data').innerHTML = data
+  }
   </script>
   <style type="text/css">
   #content{
@@ -116,27 +97,36 @@ function raw(){
     text-align: center;
     background-color: #FFFFFF;
   }
-#results{
-  padding-top:50px;
-  width: 700px ;
-  margin-bottom: 10px;
-  margin-left: auto ;
-  margin-right: auto ;
-  text-align: left;
-}
-#list{
-
-  margin-left: auto ;
-  margin-right: auto ;
-  text-align: left;
-}
-#rawLink{
-  width: 700px ;
-  margin-bottom: 80px;
-  margin-left: auto ;
-  margin-right: auto ;
-  text-align: center;
-}
+  #results{
+    padding-top:50px;
+    width: 700px ;
+    margin-bottom: 10px;
+    margin-left: auto ;
+    margin-right: auto ;
+    text-align: center;
+  }
+  
+  #rawLink{
+    width: 700px ;
+    margin-bottom: 80px;
+    margin-left: auto ;
+    margin-right: auto ;
+    text-align: center;
+  }
+  #data{
+    list-style-type: none;
+    display:inline-block;
+    border-top: 2px;
+    font-size: 2rem;
+    margin-left: auto ;
+    margin-right: auto ;
+    text-align: left;
+    
+  }
+  
+  li {
+    padding-bottom: 3%;
+  }
   </style>
 </head>
 <body onload="formatting()">
@@ -150,50 +140,50 @@ function raw(){
       </ul>
     </div>
   </nav>
-    <div class="search" id="content">
-      <h1><a href="https://travis-ci.org/"><img src="/img/travis-logo.png" style="width:150px;height:75px;"></a> Search</h1><br>
-      <form action="/search" method="POST" >
-        <input type="text" name="query" placeholder="Enter module name" style="width:200px;height:40px;"/>
-        <input class="btn btn-danger" onclick="this.value='Loading';loading()" id="submit" type="submit" value="Submit" style="width:100px;height:35px;display:inline" />
-      </form>
-    </div>
+  <div class="search" id="content">
+    <h1><a href="https://travis-ci.org/"><img src="/img/travis-logo.png" style="width:150px;height:75px;"></a> Search</h1><br>
+    <form action="/search" method="POST" >
+      <input type="text" name="query" placeholder="Enter module name" style="width:200px;height:40px;"/>
+      <input class="btn btn-danger" onclick="this.value='Loading';loading()" id="submit" type="submit" value="Submit" style="width:100px;height:35px;display:inline" />
+    </form>
+  </div>
   <div class ="results" id="results">
     <p class="lead" id ="title">Search Results for: <em><%= input%></em></p>
     
     <HR>
       
       <a target="_blank" href='<%= github%>' class="btn btn-block btn-social btn-sm btn-github" style="width:131px; float:right;">
-      <span class="fa fa-github" ></span> view on github
-    </a>
-  <p class="lead" id="list">
-      <ul class="lead" id="data" style="list-style-type:none;">
-                      ID: <li id="id"></li>
-                      <span><strong>Slug: </strong><li id="slug"></li></span>
-                      <li><strong id="active">Active:</strong></li>
-                      <li><strong id="description">Description:</strong></li>
-                      <li><strong id="build">Last build on:</strong></li>
-                      <li><strong id="state">Last build state:</strong></li>
-                      <li><strong id="group">Group:</strong></li>
-                      <li><strong id="language">Language:</strong></li>
-                    </ul>
-                  </p>
+        <span class="fa fa-github" ></span> view on github
+      </a>
+      <p class="lead" id="list">
+        <ul class="lead" id="data">
+          <li id="id"></li>
+          <li id="slug"></li>
+          <li id="active"></li>
+          <li id="description"></li>
+          <li id="build"></li>
+          <li id="state"></li>
+          <li id="group"></li>
+          <li id="language"></li>
+        </ul>
+      </p>
       <br><br>
-    <br>
-    <HR>
-    </div>
-    <div id="rawLink">
-      <p><form action="/raw" method="POST">
-        <input class="btn btn-link disabled" id="raw" type="submit" value="The above is just an overview of available data, click here to see the raw information" style="width:500px;height:40px;font-family:helvectica-neue;font-weight:300;color:#888888;" /></p><br></form>
-
-  </div>
-  <div id="footer">
-    <footer>
-      <a href="https://www.linkedin.com/in/matthew-o-connor-8972a985?authType=NAME_SEARCH&authToken=IAWc" class="hb-xs-margin"><span class="hb hb-xs spin-icon"><i class="fa fa-linkedin-square"></i></span></a>
-      <a href="https://github.com/matt-oc"><span class="hb hb-xs spin-icon"><i class="fa fa-github-square"></i></span></a>
-      <a href="https://www.facebook.com/matthew.oconnor.9847"><span class="hb hb-xs spin-icon"><i class="fa fa-facebook"></i></span></a>
-      <a href="https://twitter.com/MattOC1989"><span class="hb hb-xs spin-icon"><i class="fa fa-twitter"></i></span></a>
-    </footer>
-  </div>
-  <script src="/js/jquery-2.1.0.min.js"></script>
-  <script src="/js/hexagons.min.js"></script>
-</body>
+      <br>
+      <HR>
+      </div>
+      <div id="rawLink">
+        <p><form action="/raw" method="POST">
+          <input class="btn btn-link disabled" id="raw" type="submit" value="The above is just an overview of available data, click here to see the raw information" style="width:500px;height:40px;font-family:helvectica-neue;font-weight:300;color:#888888;" /></p><br></form>
+          
+        </div>
+        <div id="footer">
+          <footer>
+            <a href="https://www.linkedin.com/in/matthew-o-connor-8972a985?authType=NAME_SEARCH&authToken=IAWc" class="hb-xs-margin"><span class="hb hb-xs spin-icon"><i class="fa fa-linkedin-square"></i></span></a>
+            <a href="https://github.com/matt-oc"><span class="hb hb-xs spin-icon"><i class="fa fa-github-square"></i></span></a>
+            <a href="https://www.facebook.com/matthew.oconnor.9847"><span class="hb hb-xs spin-icon"><i class="fa fa-facebook"></i></span></a>
+            <a href="https://twitter.com/MattOC1989"><span class="hb hb-xs spin-icon"><i class="fa fa-twitter"></i></span></a>
+          </footer>
+        </div>
+        <script src="/js/jquery-2.1.0.min.js"></script>
+        <script src="/js/hexagons.min.js"></script>
+      </body>

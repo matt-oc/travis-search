@@ -9,10 +9,12 @@
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="/css/hexagons.min.css"> 
+  <link rel="icon" href="img/favicon.png" type="img/png"/>
+  <link rel="shortcut icon" href="img/favicon.png" type="img/png"/>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
   <script type="text/javascript">
   function loading() {
-    document.getElementById('results').innerHTML = '<br\><br\><br\><img src="img/loading1.gif" id="image" style="width:150px;height:120px;">'
+    document.getElementById('results').innerHTML = '<br\><br\><br\><img src="img/loading.gif" id="image" style="width:300px;height:213px;">'
   }
   </script>
   <style type="text/css">
@@ -51,15 +53,15 @@
     </div>
   </nav>
   
-    <div class="search" id="content">
-      <h1><a href="https://travis-ci.org/"><img src="/img/travis-logo.png" style="width:150px;height:75px;"></a> Search</h1><br>
-      <p class="lead">Search for Travis-CI modules below</p>
-      <form action="/search" method="POST">
-        <input type="text" name="query" placeholder="Enter module name" style="width:200px;height:40px;" />
-        <input class="btn btn-danger" onclick="this.value='Loading';loading()" id="submit" type="submit" value="Submit" style="width:100px;height:35px;" />
-      </form>
-    </div>
-
+  <div class="search" id="content">
+    <h1><a href="https://travis-ci.org/"><img src="/img/travis-logo.png" style="width:150px;height:75px;"></a> Search</h1><br>
+    <p class="lead">Search for Travis-CI modules below</p>
+    <form action="/search" method="POST">
+      <input type="text" name="query" placeholder="Enter module name" style="width:200px;height:40px;" />
+      <input class="btn btn-danger" onclick="this.value='Loading';loading()" id="submit" type="submit" value="Submit" style="width:100px;height:35px;" />
+    </form>
+  </div>
+  
   <div class ="results" id="results">
     
   </div>
