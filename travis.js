@@ -9,19 +9,19 @@ var tr = new Travis({
 
 module.exports = function travis () {
   var seneca = this
-
+  
   var options = seneca.util.deepextend({
     registry: 'http://registry.npmjs.org/'
   })
-
+  
   seneca.add('role:travis,cmd:extract', cmd_extract)
   seneca.add('role:travis,cmd:get', cmd_get)
   seneca.add('role:travis,cmd:parse', cmd_parse)
-
+  
   function cmd_get (args, done) {
     var name = args.name
     
-
+    
     var url = options.registry + name
     Request.get(url, function (err, res, body) {
       if (err) {
@@ -37,9 +37,9 @@ module.exports = function travis () {
         }
         var gitData = cmd_parse(data)
         if (gitData){
-        var user = gitData[1]
-        var reponame = gitData[2]
-      }
+          var user = gitData[1]
+          var reponame = gitData[2]
+        }
         if (!user) {
           return done(null,{type:"fail"})
         }
@@ -59,26 +59,26 @@ function getRepo(user, reponame, data, cb){
   
   tr.repos(user, reponame).get(function (err, res) {
     if (err) {
-          cb(err)
-        }
+      cb(err)
+    }
     res1 = res
     
   })
   tr.repos(user, reponame).builds.get(function (err, res) {
     if (err) {
-          cb(err);
-  }
+      cb(err);
+    }
     res2 = res
     
     if (res1 && res2.builds[0]){
-    var build = Object.assign(res1.repo, res2.builds[0].config, data)
-  }
-  else if(res1){
-    build = Object.assign(res1.repo, data)
-  }
-  else {
-    build = null;
-  }
+      var build = Object.assign(res1.repo, res2.builds[0].config, data)
+    }
+    else if(res1){
+      build = Object.assign(res1.repo, data)
+    }
+    else {
+      build = null;
+    }
     cb(build);
   })
 }
@@ -91,7 +91,7 @@ function cmd_extract (args, done) {
   var out = {
     giturl: repository.url
   }
-
+  
   done(null, out)
 }
 

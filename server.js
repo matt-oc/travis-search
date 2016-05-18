@@ -42,7 +42,7 @@ app.post("/search",function(req,res){
           res.render('results', {result:"onNpm", input:query, github:""})
         }
         else{
-        var gitUrl = data.giturl.substring(4);
+          var gitUrl = data.giturl.substring(4);
           info = data;
           input = query;
           res.render('results', {result:data, input:query, github:gitUrl})
